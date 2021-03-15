@@ -79,7 +79,99 @@ class LinkedList {
     }
     previousNode.next = currNode.next;
   }
-}
+
+  makeCyclical(item) {
+    if (this.head === null) {
+      this.insertFirst(item);
+    }
+    else {
+      let tempNode = this.head;
+      while (tempNode.next !== null) {
+        tempNode = tempNode.next;
+      }
+      tempNode.next = new _Node(item, this.head)
+    }
+  }
+
+  insertBefore(item, key) {
+    let currNode = this.head;
+    let prevNode = this.head;
+
+    if (this.head.value === key) {
+      this.insertFirst(item);
+    } else {
+      while((currNode !== null) && (currNode.value !== key)) {
+        prevNode = currNode
+        currNode = currNode.next
+      }
+    }
+    currNode.next = new _Node(item, prevNode.next.next)
+  }
+
+  insertAt(item,  position) {
+    let currNode = this.head
+    let prevNode = this.head
+    let counter = 0
+
+    while((currNode !== null) && (counter !== (position))) {
+      prevNode = currNode
+      currNode = currNode.next
+      counter++
+    }
+    prevNode.next = new _Node(item, currNode.next)
+    return currNode
+  }
+}//end 
 
 //best case is O(1)
 //average or worst are O(n) due to finding the node that you want to remove
+
+class _NodeDLL {
+  constructor() {
+    this.value = value;
+    this.next = next;
+    this.prev = prev;
+  }
+}
+
+class DoublyLinkedList {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+  }
+}
+
+insertFirst(item) {
+  this.head = new _NodeDLL(item, null, this.tail);
+  this.tail = this.head
+}
+
+insertLast(item) {
+  if (this.head === null) {
+    this.insertFirst(item)
+  }
+  else {
+    this.tail.next = new _NodeDLL(item, null, this.tail);
+    this.tail = this.tail.next
+  }
+}
+
+insertBefore(item, key) {
+  let currNode = this.head;
+  let prevNode = this.head;
+
+  if (this.head.value === key) {
+    this.insertFirst(item);
+  } else {
+    while((currNode !== null) && (currNode.value !== key)) {
+      prevNode = currNode
+      currNode = currNode.next
+    }
+  }
+  currNode.next = new _NodeDLL(item, prevNode.next.next, prevNode.next);
+  if(this.tail === currNode) {
+    this.tail = currNode.next
+  }
+}
+
+
